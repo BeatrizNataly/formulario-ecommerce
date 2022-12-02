@@ -1,7 +1,7 @@
-function Label({text}){
+function Label({text, className}){
     return(
         <>
-            <label>{text}</label>
+            <label className={className != null ? className : 'label-style'}>{text}</label>
         </>
     )
 }

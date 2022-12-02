@@ -1,4 +1,74 @@
+.form-header{
+    color: white;
+    background-color: rgb(34, 34, 34);
+    padding: 24px;
+}
+
+.form-body{
+    background-color: lightgoldenrodyellow;
+}
+
+.container-label{
+    background-color: lightcoral;
+    padding: 8px 16px;
+    font-weight: 700;
+}
+
+.container-colorA{
+    background-color: lightblue;
+    padding: 16px;
+}
+
+.container-colorB{
+    background-color: lightblue;
+    display: block;
+    align-items: center;
+}
+
+.submit{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 24px;
+}
+
 .error-message{
     color: brown;
     font-size: smaller;
+    font-weight: 500;
+}
+
+.error-input{
+    border: 2px solid brown;
+}
+
+.notes{
+    color:chocolate;
+    text-align: end;
+    margin-right: 24px;
+    font-weight: 500;
+}
+
+.row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-style{
+    border: 1px solid rgb(34, 34, 34);
+    border-radius: 2px;
+    padding: 8px 16px;
+}
+
+.container-input{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.label-style{
+    margin-left: 36px;
+}
+
+.label-cep{
+    margin-left: 16px;
 }
