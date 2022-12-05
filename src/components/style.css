@@ -1,7 +1,11 @@
+.container-form{
+    display: block;
+}
+
 .form-header{
     color: white;
     background-color: rgb(34, 34, 34);
-    padding: 24px;
+    padding: 16px;
 }
 
 .form-body{
@@ -12,17 +16,20 @@
     background-color: lightcoral;
     padding: 8px 16px;
     font-weight: 700;
+    height: fit-content;
 }
 
 .container-colorA{
     background-color: lightblue;
-    padding: 16px;
+    padding: 16px 8px;
 }
 
 .container-colorB{
-    background-color: lightblue;
+    background-color: lightgreen;
     display: block;
     align-items: center;
+    padding: 16px 8px;
+    
 }
 
 .submit{
@@ -53,6 +60,12 @@
     justify-content: space-between;
 }
 
+.float{
+    position: relative;
+    bottom: 16px;
+    left: -16px;
+}
+
 .input-style{
     border: 1px solid rgb(34, 34, 34);
     border-radius: 2px;
@@ -71,4 +84,31 @@
 
 .label-cep{
     margin-left: 16px;
+}
+
+.finish{
+    background-color: lightcoral;
+    padding: 24px;
+    text-align: center;
+    height: 100%;
+    padding-bottom: 500px;
+}
+
+@media screen and (min-width: 830px) {
+    .container-form{
+        display: flex;
+        justify-content: initial;
+    }
+    .container-colorA{
+        width: 100%;
+    }
+    .container-input{
+        align-items: baseline;
+    }
+    .row{
+        justify-content:initial;
+    }
+    .row label{
+        margin-right: 120px;
+    }
 }

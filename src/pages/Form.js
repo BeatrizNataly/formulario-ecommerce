@@ -4,8 +4,10 @@ import Label from '../components/Label';
 import InputAddress from '../components/InputAddress';
 import axios from 'axios';
 import { useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 function Form() {
+    const navigate = useNavigate();
 
     const [terms, setTerms] = useState(false);
     const [newsletter, setNewsletter] = useState(false);
@@ -113,6 +115,8 @@ function Form() {
         console.log({ _errors });
         setErrors(_errors)
         isSubmitValido(Object.keys(_errors).length === 0 ? true : false)
+        if(submitValido)
+            navigate('/finish')
     }
 
     const handleInput = (e) => {
@@ -147,85 +151,92 @@ function Form() {
                     que seu pacote venha até você em segurança!</p>
             </div>
             <form onSubmit={handleSubmit} className="form-body">
-                <Label className="container-label" text="Dados pessoais:" /><br /><br />
+                <div className='container-form'>
+                    <div style={{ padding: '16px' }}>
+                        <Label className="container-label float"
+                            text="Dados pessoais:"
+                        /><br /><br />
+                        <Label text="Nome *" />
+                        <InputField
+                            className={errors?.primeiroNome != null ? 'error-input' : ''}
+                            type="text"
+                            id="primeiroNome"
+                            placeholder="Primeiro Nome"
+                            onInput={handleInput}
+                            error={errors?.primeiroNome != null ? <>{errors.primeiroNome[0]}</> : null}
+                        />
 
-                <div>
-                    <Label text="Nome *" />
-                    <InputField
-                        className={errors?.primeiroNome != null ? 'error-input' : ''}
-                        type="text"
-                        id="primeiroNome"
-                        placeholder="Primeiro Nome"
-                        onInput={handleInput}
-                        error={errors?.primeiroNome != null ? <>{errors.primeiroNome[0]}</> : null}
-                    />
+                        <InputField
+                            className={errors?.ultimoNome != null ? 'error-input' : ''}
+                            type="text"
+                            id="ultimoNome"
+                            placeholder="Último Nome"
+                            onInput={handleInput}
+                            error={errors?.ultimoNome != null ? <>{errors.ultimoNome[0]}</> : null}
+                        />
+                        <br />
 
-                    <InputField
-                        className={errors?.ultimoNome != null ? 'error-input' : ''}
-                        type="text"
-                        id="ultimoNome"
-                        placeholder="Último Nome"
-                        onInput={handleInput}
-                        error={errors?.ultimoNome != null ? <>{errors.ultimoNome[0]}</> : null}
-                    />
-                    <br />
+                        <Label text="Email *" />
+                        <InputField
+                            className={errors?.email != null ? 'error-input' : ''}
+                            type="email"
+                            id="email"
+                            placeholder="ex: meuEmail199@exemplo.com"
+                            onInput={handleInput}
+                            error={errors?.email != null ? <>{errors.email[0]}</> : null}
+                        />
+                        <br />
 
-                    <Label text="Email *" />
-                    <InputField
-                        className={errors?.email != null ? 'error-input' : ''}
-                        type="email"
-                        id="email"
-                        placeholder="ex: meuEmail199@exemplo.com"
-                        onInput={handleInput}
-                        error={errors?.email != null ? <>{errors.email[0]}</> : null}
-                    />
-                    <br />
-
-                    <Label text="Telefone celular*" />
-                    <InputField
-                        className={errors?.telefone != null ? 'error-input' : ''}
-                        type="phone"
-                        id="telefone"
-                        mask='(99) 99999-9999'
-                        placeholder='ex: (11) 98888-7777'
-                        onInput={handleInput}
-                        error={errors?.telefone != null ? <>{errors.telefone[1]}</> : null}
-                    />
-                    <br />
-                </div>
-                <br />
-                <Label className="container-label" text="Endereço de entrega:" />
-
-                <div className='container-colorA'>
-                    <div className='row'>
-                        <Label text="CEP *" className="label-cep" /><a
-                            href="https://buscacepinter.correios.com.br/app/endereco/index.php"
-                            target="_blank" className='notes'>Não sei meu cep.</a>
+                        <Label text="Telefone celular*" />
+                        <InputField
+                            className={errors?.telefone != null ? 'error-input' : ''}
+                            type="phone"
+                            id="telefone"
+                            mask='(99) 99999-9999'
+                            placeholder='ex: (11) 98888-7777'
+                            onInput={handleInput}
+                            error={errors?.telefone != null ? <>{errors.telefone[1]}</> : null}
+                        />
+                        <br />
                     </div>
-                    <InputField
-                        className={errors?.cep != null ? 'error-input' : ''}
-                        type="text"
-                        id="cep"
-                        mask='99999-999'
-                        placeholder='ex: 01001-000'
-                        onInput={handleInputCep}
-                        error={
-                            errors?.cep != null ? <>{errors.cep[0]}</>
-                                : <> {cepValido ? null : eventCep ? 'Cep não encontrado.'
-                                    : null}</>
-                        }
-                    />
                     <br />
+                    <div className='container-colorA'>
+                        <Label className="container-label float" text="Endereço de entrega:" />
+                        <div className='row'>
+                            <Label text="CEP *" className="label-cep" /><a
+                                href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+                                target="_blank" className='notes'>Não sei meu cep.</a>
+                        </div>
+                        <InputField
+                            className={errors?.cep != null ? 'error-input' : ''}
+                            type="text"
+                            id="cep"
+                            mask='99999-999'
+                            placeholder='ex: 01001-000'
+                            onInput={handleInputCep}
+                            error={
+                                errors?.cep != null ? <>{errors.cep[0]}</>
+                                    : <> {cepValido ? null : eventCep ? 'Cep não encontrado.'
+                                        : null}</>
+                            }
+                        />
+                        <br />
 
+                        {
+                            cepValido ?
+                                <><InputAddress
+                                    rua={values.rua}
+                                    bairro={values.bairro}
+                                    cidade={values.cidade}
+                                    uf={values.uf}
+                                />
+                                </>
+                                : null
+                        }
+                    </div>
                     {
                         cepValido ?
-                            <><InputAddress
-                                rua={values.rua}
-                                bairro={values.bairro}
-                                cidade={values.cidade}
-                                uf={values.uf}
-                            />
-
+                            <div className='container-colorA'>
                                 <Label text="Número *" />
                                 <InputField
                                     className={errors?.numero != null ? 'error-input' : ''}
@@ -246,38 +257,38 @@ function Form() {
                                 />
 
                                 <br />
-                            </>
+                            </div>
                             : null
                     }
-                </div>
-                <div className='container-colorB'>
-                    <input
-                        type="checkbox"
-                        id="check-terms"
-                        onChange={() => setTerms(!terms)}
-                    />
-                    <label>Concordo com os Termos e Condições</label>{eventSubmit ? terms ? null : <p className='error-message'> Este campo é obrigatório</p> : null}
-                    <br />
+                    <div className='container-colorB'>
+                        <input
+                            type="checkbox"
+                            id="check-terms"
+                            onChange={() => setTerms(!terms)}
+                        />
+                        <label>Concordo com os Termos e Condições</label>{eventSubmit ? terms ? null : <p className='error-message'> Este campo é obrigatório</p> : null}
+                        <br />
 
-                    <input
-                        type="checkbox"
-                        id="check-communication"
-                        onChange={() => setNewsletter(!newsletter)}
-                    />
-                    <label>Desejo receber mensagens sobre meu pedido</label>
-                    <br></br><br></br>
+                        <input
+                            type="checkbox"
+                            id="check-communication"
+                            onChange={() => setNewsletter(!newsletter)}
+                        />
+                        <label>Desejo receber mensagens sobre meu pedido</label>
+                        <br></br><br></br>
 
-                    <div className='submit'>
-                        <input type="submit" style={
-                            {
-                                backgroundColor: "chartreuse",
-                                padding: "8px",
-                                borderRadius: "8px",
-                                fontSize: "medium",
-                                fontWeight: "600"
-                            }
-                        }/>
+                        <div className='submit'>
+                            <input type="submit" style={
+                                {
+                                    backgroundColor: "chartreuse",
+                                    padding: "8px",
+                                    borderRadius: "8px",
+                                    fontSize: "medium",
+                                    fontWeight: "600"
+                                }
+                            } />
                         </div>
+                    </div>
                 </div>
             </form>
         </div>
