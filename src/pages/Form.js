@@ -3,7 +3,7 @@ import Label from '../components/Label';
 import InputAddress from '../components/InputAddress';
 import axios from 'axios';
 import { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import findErrors from '../components/Handler';
 
 function Form() {
@@ -67,22 +67,14 @@ function Form() {
         const camposObrigatorios = ["primeiroNome", "ultimoNome", "email",
             "telefone", "rua", "numero", "bairro", "cidade", "uf", "cep"]
 
-        const camposMaxLength = {
-            "telefone": 16
-        }
-        const camposMinLength = {
-            "telefone": 15
-        }
+        const camposMaxLength = { "telefone": 16 }
+        const camposMinLength = { "telefone": 15 }
 
         const _errors = findErrors(camposMaxLength, camposMinLength, camposObrigatorios, values);
 
-        if(_errors.length != 0) isSubmitValido(false);
-
-        console.log({ _errors });
         setErrors(_errors)
         isSubmitValido(Object.keys(_errors).length === 0 ? true : false)
-        if(submitValido)
-            navigate('/finish')
+        if (submitValido) navigate('/finish')
     }
 
     const handleInput = (e) => {
@@ -96,7 +88,6 @@ function Form() {
 
     const handleInputCep = (e) => {
         e.preventDefault();
-
         let valor = e.target.value;
         let cepSplit = valor.replace(/([AP]M)$/i, " $1").split(/[^0-9a-z]+/ig);
         let cep = cepSplit[0] + cepSplit[1]
@@ -113,15 +104,12 @@ function Form() {
         <div>
             <div className='form-header'>
                 <h1>Falta pouco...</h1>
-                <p>Preencha os dados abaixo para garantir
-                    que seu pacote venha até você em segurança!</p>
+                <p>Preencha os dados abaixo para garantir que seu pacote venha até você em segurança!</p>
             </div>
             <form onSubmit={handleSubmit} className="form-body">
                 <div className='container-form'>
                     <div style={{ padding: '16px' }}>
-                        <Label className="container-label float"
-                            text="Dados pessoais:"
-                        /><br /><br />
+                        <Label className="container-label float" text="Dados pessoais:" /><br /><br />
                         <Label text="Nome *" />
                         <InputField
                             className={errors?.primeiroNome != null ? 'error-input' : ''}
@@ -139,8 +127,7 @@ function Form() {
                             placeholder="Último Nome"
                             onInput={handleInput}
                             error={errors?.ultimoNome != null ? <>{errors.ultimoNome[0]}</> : null}
-                        />
-                        <br />
+                        /><br />
 
                         <Label text="Email *" />
                         <InputField
@@ -150,8 +137,7 @@ function Form() {
                             placeholder="ex: meuEmail199@exemplo.com"
                             onInput={handleInput}
                             error={errors?.email != null ? <>{errors.email[0]}</> : null}
-                        />
-                        <br />
+                        /><br />
 
                         <Label text="Telefone celular*" />
                         <InputField
@@ -162,8 +148,7 @@ function Form() {
                             placeholder='ex: (11) 98888-7777'
                             onInput={handleInput}
                             error={errors?.telefone != null ? <>{errors.telefone[1]}</> : null}
-                        />
-                        <br />
+                        /><br />
                     </div>
                     <br />
                     <div className='container-colorA'>
@@ -185,9 +170,7 @@ function Form() {
                                     : <> {cepValido ? null : eventCep ? 'Cep não encontrado.'
                                         : null}</>
                             }
-                        />
-                        <br />
-
+                        /><br />
                         {
                             cepValido ?
                                 <><InputAddress
@@ -211,8 +194,7 @@ function Form() {
                                     placeholder="ex: 526A"
                                     onInput={handleInput}
                                     error={errors?.numero != null ? <>{errors.numero[0]}</> : null}
-                                />
-                                <br />
+                                /><br />
 
                                 <Label text="Complemento" />
                                 <InputField
@@ -220,9 +202,7 @@ function Form() {
                                     id="complemento"
                                     placeholder="ex: Apto. 215B"
                                     onInput={handleInput}
-                                />
-
-                                <br />
+                                /><br />
                             </div>
                             : null
                     }
@@ -234,7 +214,6 @@ function Form() {
                         />
                         <label>Concordo com os Termos e Condições</label>{eventSubmit ? terms ? null : <p className='error-message'> Este campo é obrigatório</p> : null}
                         <br />
-
                         <input
                             type="checkbox"
                             id="check-communication"
