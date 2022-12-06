@@ -1,10 +1,10 @@
-
 import InputField from '../components/InputField';
 import Label from '../components/Label';
 import InputAddress from '../components/InputAddress';
 import axios from 'axios';
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";
+import findErrors from '../components/Handler';
 
 function Form() {
     const navigate = useNavigate();
@@ -74,43 +74,9 @@ function Form() {
             "telefone": 15
         }
 
-        let _errors = {};
+        const _errors = findErrors(camposMaxLength, camposMinLength, camposObrigatorios, values);
 
-        for (var key in values) {
-            if (camposObrigatorios.includes(key)) {
-                if (values[key] == '') {
-                    isSubmitValido(false)
-                    let message = "Este campo é obrigatório";
-                    if (_errors[key]) {
-                        _errors[key].push(message)
-                    } else {
-                        _errors[key] = [message]
-                    }
-                }
-            }
-            if (Object.keys(camposMaxLength).includes(key)) {
-                if (values[key].length > camposMaxLength[key]) {
-                    isSubmitValido(false)
-                    let message = `Este campo não pode ter mais de ${camposMaxLength[key]} caracteres`;
-                    if (_errors[key]) {
-                        _errors[key].push(message)
-                    } else {
-                        _errors[key] = [message]
-                    }
-                }
-            }
-            if (Object.keys(camposMinLength).includes(key)) {
-                if (values[key].length < camposMinLength[key]) {
-                    isSubmitValido(false)
-                    let message = `Este campo não pode ter menos de ${camposMinLength[key]} caracteres`;
-                    if (_errors[key]) {
-                        _errors[key].push(message)
-                    } else {
-                        _errors[key] = [message]
-                    }
-                }
-            }
-        }
+        if(_errors.length != 0) isSubmitValido(false);
 
         console.log({ _errors });
         setErrors(_errors)
