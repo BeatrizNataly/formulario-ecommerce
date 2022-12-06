@@ -1,43 +1,46 @@
-function findErrors(camposMaxLength, camposMinLength, camposObrigatorios, values){
-    let _errors = {};
+let _errors = {};
 
-        for (var key in values) {
-            if (camposObrigatorios.includes(key)) {
-                if (values[key] == '') {
-                  //  isSubmitValido(false)
-                    let message = "Este campo é obrigatório";
-                    if (_errors[key]) {
-                        _errors[key].push(message)
-                    } else {
-                        _errors[key] = [message]
-                    }
-                }
-            }
-            if (Object.keys(camposMaxLength).includes(key)) {
-                if (values[key].length > camposMaxLength[key]) {
-                   // isSubmitValido(false)
-                    let message = `Este campo não pode ter mais de ${camposMaxLength[key]} caracteres`;
-                    if (_errors[key]) {
-                        _errors[key].push(message)
-                    } else {
-                        _errors[key] = [message]
-                    }
-                }
-            }
-            if (Object.keys(camposMinLength).includes(key)) {
-                if (values[key].length < camposMinLength[key]) {
-                  //  isSubmitValido(false)
-                    let message = `Este campo não pode ter menos de ${camposMinLength[key]} caracteres`;
-                    if (_errors[key]) {
-                        _errors[key].push(message)
-                    } else {
-                        _errors[key] = [message]
-                    }
+function findErrors(camposMaxLength, camposMinLength, camposObrigatorios, values) {
+    for (var key in values) {
+        if (camposObrigatorios.includes(key)) {
+            if (values[key] == '') {
+                let message = "Este campo é obrigatório";
+                if (_errors[key]) {
+                    _errors[key].push(message)
+                } else {
+                    _errors[key] = [message]
                 }
             }
         }
+        verifiyLength(camposMaxLength, values, key, 1)
+        verifiyLength(camposMinLength, values, key, -1)
+    }
 
-        return _errors
+    return _errors
 }
 
 export default findErrors
+
+function verifiyLength(_length, values, key, val) {
+    let message = '';
+    if (Object.keys(_length).includes(key)) {
+        if (val > 0) {
+            if (values[key].length > _length[key]) {
+                message = `Este campo não pode ter mais de ${_length[key]} caracteres`;
+                if (_errors[key]) {
+                    _errors[key].push(message)
+                } else {
+                    _errors[key] = [message]
+                }
+            }
+        } else if (val < 0) {
+            if (values[key].length < _length[key])
+                message = `Este campo não pode ter menos de ${_length[key]} caracteres`;
+            if (_errors[key]) {
+                _errors[key].push(message)
+            } else {
+                _errors[key] = [message]
+            }
+        }
+    }
+}
